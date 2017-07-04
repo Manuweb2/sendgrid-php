@@ -38,13 +38,17 @@ class SendGrid
       * @param string $apiKey  your SendGrid API Key.
       * @param array  $options an array of options, currently only "host" and "curl" are implemented.
       */
-    public function __construct($apiKey, $options = array())
+    public function __construct($apiKey, $options = array(), $on_behalf_of = "")
     {
         $headers = array(
             'Authorization: Bearer '.$apiKey,
             'User-Agent: sendgrid/' . $this->version . ';php',
             'Accept: application/json'
-            );
+        );
+
+        if($on_behalf_of != ""){
+            $headers[] = 'on-behalf-of: '.$on_behalf_of;
+        }
 
         $host = isset($options['host']) ? $options['host'] : 'https://api.sendgrid.com';
 
